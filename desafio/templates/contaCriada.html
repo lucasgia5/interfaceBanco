@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conta Criada</title>
+</head>
+<body>
+    <h1>Conta Criada</h1>
+    <ul>
+        {% for conta in contas %}
+            <li>
+                ID: {{ conta['id'] }} - Nome: {{ conta['nome'] }} - CPF: {{ conta['cpf'] }} - Saldo: {{ conta['saldo'] }}
+                
+                <!-- Formulário para Saque -->
+                <form action="{{ url_for('sacar', conta_id=conta['id']) }}" method="post">
+                    <label for="valor-saque-{{ conta['id'] }}">Valor do saque:</label>
+                    <input type="number" id="valor-saque-{{ conta['id'] }}" name="valor" step="0.01" min="0" required>
+                    <button type="submit">Sacar</button>
+                </form>
+                
+                <!-- Formulário para Depósito -->
+                <form action="{{ url_for('depositar', conta_id=conta['id']) }}" method="post">
+                    <label for="valor-deposito-{{ conta['id'] }}">Valor do depósito:</label>
+                    <input type="number" id="valor-deposito-{{ conta['id'] }}" name="valor" step="0.01" min="0" required>
+                    <button type="submit">Depositar</button>
+                </form>
+                
+            </li><br>
+        {% endfor %}
+    </ul>
+    
+    <!-- Mensagem de resultado -->
+    {% if mensagem %}
+        <p>{{ mensagem }}</p>
+    {% endif %}
+    
+    <!-- Botão para voltar para a página principal -->
+    <a href="{{ url_for('index') }}">Voltar para a Página Principal</a>
+</body>
+</html>
